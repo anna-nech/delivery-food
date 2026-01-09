@@ -11,10 +11,12 @@ const userName = document.querySelector('.user-name');
 function openModalAuth() {
     modalAuth.classList.add('is-open');
     loginInput.style.border = "1px solid #ccc";
+    disableScroll();
 }
 
 function closeModalAuth() {
     modalAuth.classList.remove('is-open');
+     enableScroll();  
 }
 
 function login(event) {
@@ -63,6 +65,35 @@ function checkAuth() {
         buttonAuth.style.display = 'block';
         buttonOut.style.display = 'none';
     }
+}
+
+loginInput.addEventListener('input', () => {
+    loginInput.style.border = "1px solid #ccc";
+});
+
+modalAuth.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal-auth')) {
+        closeModalAuth();
+        enableScroll();
+    }
+});
+
+function disableScroll() {
+    document.body.dbScrollY = window.scrollY;
+
+    document.body.style.cssText = `
+        position: fixed;
+        top: -${window.scrollY}px;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        height: 100vh;
+    `;
+}
+
+function enableScroll() {
+    document.body.style.cssText = '';
+    window.scroll({ top: document.body.dbScrollY });
 }
 
 buttonAuth.addEventListener('click', openModalAuth);
